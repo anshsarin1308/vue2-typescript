@@ -72,23 +72,24 @@ export default class AddBlog extends Vue {
   submitted = false;
 
   post() {
-    axios
-      .post('https://vuejs-blog-94894-default-rtdb.firebaseio.com/posts.json', this.blog)
-      .then((response) => {
-        const blogId = response.data.name;
-        this.submitted = true;
+  axios
+    .post('https://vuejs-blog-94894-default-rtdb.firebaseio.com/posts.json', this.blog)
+    .then((response) => {
+      const blogId = response.data.name;
+      this.submitted = true;
 
-        const newBlog: Blog = {
-          ...this.blog,
-          id: blogId
-        };
-        this.$store.commit('setBlogs', [...this.$store.state.blogs, newBlog]);
+      const newBlog: Blog = {
+        ...this.blog,
+        id: blogId,
+      };
+      this.$store.commit('setBlogs', [...this.$store.state.blogs, newBlog]);
 
-        setTimeout(() => {
-          this.$router.push({ path: '/', query: { blogId: blogId } });
-        }, 2000);
+      this.$nextTick(() => {
+        this.$router.push({ path: '/', query: { blogId: blogId } });
       });
-  }
+    });
+}
+
 }
 </script>
 

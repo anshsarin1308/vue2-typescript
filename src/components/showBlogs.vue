@@ -41,17 +41,20 @@ export default class ShowBlogs extends Vue {
   }
 
   created() {
-    this.$store.dispatch('fetchBlogs');
-    
-    const blogId = this.$route.query.blogId as string;
-    if (blogId) {
-      this.newBlogId = blogId;
-      this.notificationVisible = true;
+  this.$store.dispatch('fetchBlogs');
 
+  const blogId = this.$route.query.blogId as string;
+  if (blogId) {
+    this.newBlogId = blogId;
+    this.notificationVisible = true;
+
+    this.$nextTick(() => {
       setTimeout(() => {
         this.notificationVisible = false;
       }, 5000);
-    }
+    });
   }
+}
+
 }
 </script>
