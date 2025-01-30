@@ -2,7 +2,7 @@
 <template>
   <div class="container my-5">
     <div class="card shadow-lg p-4">
-      <h2 class="text-center text-primary">Add a New Blog Post</h2>
+      <h2 class="text-center ">Add a New Blog Post</h2>
 
       <form v-if="!submitted">
         <BaseInput v-model="blog.title" label="Blog Title:" required />
@@ -13,7 +13,7 @@
 
         <BaseSelect v-model="blog.author" label="Author:" :options="authors" />
 
-        <button class="btn btn-primary w-100" v-on:click.prevent="post">Add Blog</button>
+        <button class="btn  w-100" v-on:click.prevent="post">Add Blog</button>
       </form>
 
       <div v-if="submitted" class="alert alert-success text-center mt-3">
@@ -94,11 +94,11 @@ export default class AddBlog extends Vue {
 
 <style scoped>
 .text-center {
-  color: gray !important;
+  color: gray ;
 }
 
 .btn {
-  color: black !important;
+  color: black ;
   background-color: #ffc107;
   font-size: 25px;
 }

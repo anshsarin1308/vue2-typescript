@@ -24,8 +24,8 @@ export default {};
 </script>
 
 <style scoped>
-.router-link-active {
+.navbar .router-link-active {
   font-weight: bold;
-  color: #ffc107 !important; 
+  color: #ffc107 ; 
 }
 </style>

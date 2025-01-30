@@ -2,7 +2,7 @@
   <div class="container my-5">
     <div v-if="blog" class="card shadow-lg">
       <div class="card-body">
-        <h1 class="card-title text-primary">{{ blog.title }}</h1>
+        <h1 class="card-title ">{{ blog.title }}</h1>
         <p class="card-text">{{ blog.content }}</p>
         <p class="text-muted"><strong>Author:</strong> {{ blog.author }}</p>
         <h5 class="mt-3">Categories:</h5>
@@ -63,6 +63,6 @@ export default class SingleBlog extends Vue {
 }
 
 .card-title{
-  color: brown !important;
+  color: brown ;
 }
 </style> 
