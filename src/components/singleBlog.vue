@@ -25,17 +25,17 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Blog } from '@/store'; 
+import { Blog, ACTIONS } from '@/store'; 
 
 @Component
 export default class SingleBlog extends Vue {
   blog: Blog | null = null;
 
   created() {
-    const id = this.$route.params.id;  
-    this.$store.dispatch('fetchSingleBlog', id).then((blog) => {
+    const id = this.$route.params.id;
+    this.$store.dispatch(ACTIONS.FETCH_SINGLE_BLOG, id).then((blog) => {
       if (blog) {
-        this.blog = blog;  
+        this.blog = blog;
       }
     });
   }

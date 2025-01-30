@@ -22,6 +22,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import { ACTIONS, GETTERS } from '@/store'; 
 
 @Component
 export default class ShowBlogs extends Vue {
@@ -29,7 +30,7 @@ export default class ShowBlogs extends Vue {
   notificationVisible = false;
 
   get filteredBlogs() {
-    return this.$store.getters.filteredBlogs;
+    return this.$store.getters[GETTERS.FILTERED_BLOGS]; 
   }
 
   get search(): string {
@@ -37,24 +38,23 @@ export default class ShowBlogs extends Vue {
   }
 
   set search(value: string) {
-    this.$store.dispatch('updateSearch', value);
+    this.$store.dispatch(ACTIONS.UPDATE_SEARCH, value); 
   }
 
   created() {
-  this.$store.dispatch('fetchBlogs');
+    this.$store.dispatch(ACTIONS.FETCH_BLOGS); 
 
-  const blogId = this.$route.query.blogId as string;
-  if (blogId) {
-    this.newBlogId = blogId;
-    this.notificationVisible = true;
+    const blogId = this.$route.query.blogId as string;
+    if (blogId) {
+      this.newBlogId = blogId;
+      this.notificationVisible = true;
 
-    this.$nextTick(() => {
-      setTimeout(() => {
-        this.notificationVisible = false;
-      }, 5000);
-    });
+      this.$nextTick(() => {
+        setTimeout(() => {
+          this.notificationVisible = false;
+        }, 5000);
+      });
+    }
   }
-}
-
 }
 </script>

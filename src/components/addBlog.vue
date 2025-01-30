@@ -1,15 +1,18 @@
+
+
+
 <template>
   <div class="container my-5">
     <div class="card shadow-lg p-4">
       <h2 class="text-center">Add a New Blog Post</h2>
 
       <form v-if="!submitted">
-        <BaseInput v-model="blog.title" label="Blog Title:" required />
-        <BaseTextarea v-model="blog.content" label="Blog Content:" />
-        <BaseCheckbox v-model="blog.categories" label="Blog Categories:" :options="categories" />
-        <BaseSelect v-model="blog.author" label="Author:" :options="authors" />
+        <BaseInput v-model="blog.title" label="Blog Title:" required /> <br>
+        <BaseTextarea v-model="blog.content" label="Blog Content:" /> <br>
+        <BaseCheckbox v-model="blog.categories" label="Blog Categories:" :options="categories" /><br>
+        <BaseSelect v-model="blog.author" label="Author:" :options="authors" /><br>
 
-        <button type="button" class="btn w-100" v-on:click.prevent="postBlog">Add Blog</button>
+        <button type="button" class="btn w-100" v-on:click.prevent="postBlog">Add Blog</button><br>
       </form>
 
       <div v-if="submitted" class="alert alert-success text-center mt-3">
@@ -20,11 +23,11 @@
         <h3 class="text-secondary">Preview Blog</h3>
         <p><strong>Blog Title:</strong> {{ blog.title }}</p>
         <p><strong>Blog Content:</strong></p>
-        <p class="border p-2 bg-light" style="white-space: pre">{{ blog.content }}</p>
+        <p class="border p-2 bg-light" style="white-space: pre">{{ blog.content }}</p> <br>
         <p><strong>Blog Categories:</strong></p>
         <ul class="list-group">
           <li v-for="category in blog.categories" :key="category" class="list-group-item">{{ category }}</li>
-        </ul>
+        </ul> <br>
         <p class="mt-2"><strong>Author:</strong> {{ blog.author }}</p>
       </div>
     </div>
@@ -33,7 +36,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Blog } from '@/store'; 
+import { Blog, ACTIONS } from '@/store'; // Import ACTIONS constant
 import BaseInput from '@/components/forms/BaseInput.vue';
 import BaseTextarea from '@/components/forms/BaseTextarea.vue';
 import BaseCheckbox from '@/components/forms/BaseCheckbox.vue';
@@ -60,23 +63,16 @@ export default class AddBlog extends Vue {
   submitted = false;
 
   postBlog() {
-    this.$store.dispatch('postBlog', this.blog).then((newBlog) => {
+    this.$store.dispatch(ACTIONS.POST_BLOG, this.blog).then((newBlog) => {
       if (newBlog) {
         this.submitted = true;
-        this.blog = {
-          id: '',
-          title: '',
-          content: '',
-          categories: [],
-          author: ''
-        };
+        
 
         this.$nextTick(() => {
-  setTimeout(() => {
-    this.$router.push({ path: '/', query: { blogId: newBlog.id } });
-  }, 2000); 
-});
-
+          setTimeout(() => {
+            this.$router.push({ path: '/', query: { blogId: newBlog.id } });
+          }, 2000);
+        });
       }
     });
   }
@@ -94,3 +90,4 @@ export default class AddBlog extends Vue {
   font-size: 25px;
 }
 </style>
+
