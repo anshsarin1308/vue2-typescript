@@ -1,15 +1,25 @@
 <template>
-  <div id="single-blog" v-if="blog">
-    <h1>{{ blog.title }}</h1>
-    <article>{{ blog.content }}</article>
-    <p>Author: {{ blog.author }}</p>
-    <p>Categories:</p>
-    <ul>
-      <li v-for="(category, index) in blog.categories" :key="index">{{ category }}</li>
-    </ul>
-  </div>
-  <div v-else>
-    <p>Loading blog...</p>
+  <div class="container my-5">
+    <div v-if="blog" class="card shadow-lg">
+      <div class="card-body">
+        <h1 class="card-title text-primary">{{ blog.title }}</h1>
+        <p class="card-text">{{ blog.content }}</p>
+        <p class="text-muted"><strong>Author:</strong> {{ blog.author }}</p>
+        <h5 class="mt-3">Categories:</h5>
+        <ul class="list-group list-group-flush">
+          <li v-for="(category, index) in blog.categories" :key="index" class="list-group-item">
+            {{ category }}
+          </li>
+        </ul>
+      </div>
+    </div>
+    
+    <div v-else class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading blog...</span>
+      </div>
+      <p class="mt-3">Loading blog...</p>
+    </div>
   </div>
 </template>
 
@@ -21,13 +31,13 @@ interface Blog {
   title: string;
   content: string;
   author: string;
-  categories: string[]; // Fix: Changed 'array' to 'string[]'
+  categories: string[];
 }
 
 @Component
 export default class SingleBlog extends Vue {
   id: string = this.$route.params.id;
-  blog: Blog | null = null; // Fix: Changed to 'null' initially
+  blog: Blog | null = null;
 
   created() {
     axios
@@ -47,8 +57,12 @@ export default class SingleBlog extends Vue {
 </script>
 
 <style scoped>
-#single-blog {
-  max-width: 960px;
+.card {
+  max-width: 800px;
   margin: 0 auto;
 }
-</style>
+
+.card-title{
+  color: brown !important;
+}
+</style> 

@@ -15,7 +15,7 @@ const routes: RouteConfig[] = [
 ];
 
 const router = new VueRouter({
-  mode: 'history', // Use 'hash' if history mode causes issues
+  mode: 'history', 
   routes
 });
 

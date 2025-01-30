@@ -68,3 +68,7 @@ const store: StoreOptions<State> = {
 };
 
 export default  new Vuex.Store(store);
+
+
+
+
