@@ -2,7 +2,7 @@
   <div class="container my-5">
     <div v-if="blog" class="card shadow-lg">
       <div class="card-body">
-        <h1 class="card-title ">{{ blog.title }}</h1>
+        <h1 class="card-title">{{ blog.title }}</h1>
         <p class="card-text">{{ blog.content }}</p>
         <p class="text-muted"><strong>Author:</strong> {{ blog.author }}</p>
         <h5 class="mt-3">Categories:</h5>
@@ -25,33 +25,19 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from 'axios';
-
-interface Blog {
-  title: string;
-  content: string;
-  author: string;
-  categories: string[];
-}
+import { Blog } from '@/store'; 
 
 @Component
 export default class SingleBlog extends Vue {
-  id: string = this.$route.params.id;
   blog: Blog | null = null;
 
   created() {
-    axios
-      .get(`https://vuejs-blog-94894-default-rtdb.firebaseio.com/posts/${this.id}.json`)
-      .then((response) => {
-        if (response.data) {
-          this.blog = response.data;
-        } else {
-          console.warn("No blog data found.");
-        }
-      })
-      .catch((error) => {
-        console.error("Error fetching blog data:", error);
-      });
+    const id = this.$route.params.id;  
+    this.$store.dispatch('fetchSingleBlog', id).then((blog) => {
+      if (blog) {
+        this.blog = blog;  
+      }
+    });
   }
 }
 </script>
@@ -62,7 +48,7 @@ export default class SingleBlog extends Vue {
   margin: 0 auto;
 }
 
-.card-title{
-  color: brown ;
+.card-title {
+  color: brown;
 }
-</style> 
+</style>

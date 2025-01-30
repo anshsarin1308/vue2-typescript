@@ -1,19 +1,15 @@
-
 <template>
   <div class="container my-5">
     <div class="card shadow-lg p-4">
-      <h2 class="text-center ">Add a New Blog Post</h2>
+      <h2 class="text-center">Add a New Blog Post</h2>
 
       <form v-if="!submitted">
         <BaseInput v-model="blog.title" label="Blog Title:" required />
-
         <BaseTextarea v-model="blog.content" label="Blog Content:" />
-
         <BaseCheckbox v-model="blog.categories" label="Blog Categories:" :options="categories" />
-
         <BaseSelect v-model="blog.author" label="Author:" :options="authors" />
 
-        <button class="btn  w-100" v-on:click.prevent="post">Add Blog</button>
+        <button type="button" class="btn w-100" v-on:click.prevent="postBlog">Add Blog</button>
       </form>
 
       <div v-if="submitted" class="alert alert-success text-center mt-3">
@@ -37,19 +33,11 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import axios from 'axios';
+import { Blog } from '@/store'; 
 import BaseInput from '@/components/forms/BaseInput.vue';
 import BaseTextarea from '@/components/forms/BaseTextarea.vue';
 import BaseCheckbox from '@/components/forms/BaseCheckbox.vue';
 import BaseSelect from '@/components/forms/BaseSelect.vue';
-
-interface Blog {
-  id: string;
-  title: string;
-  content: string;
-  categories: string[];
-  author: string;
-}
 
 @Component({
   components: {
@@ -57,7 +45,7 @@ interface Blog {
     BaseTextarea,
     BaseCheckbox,
     BaseSelect,
-  },
+  }
 })
 export default class AddBlog extends Vue {
   blog: Blog = {
@@ -71,35 +59,37 @@ export default class AddBlog extends Vue {
   categories: string[] = ['Ninjas', 'Wizards', 'Mario', 'Cheese'];
   submitted = false;
 
-  post() {
-  axios
-    .post('https://vuejs-blog-94894-default-rtdb.firebaseio.com/posts.json', this.blog)
-    .then((response) => {
-      const blogId = response.data.name;
-      this.submitted = true;
+  postBlog() {
+    this.$store.dispatch('postBlog', this.blog).then((newBlog) => {
+      if (newBlog) {
+        this.submitted = true;
+        this.blog = {
+          id: '',
+          title: '',
+          content: '',
+          categories: [],
+          author: ''
+        };
 
-      const newBlog: Blog = {
-        ...this.blog,
-        id: blogId,
-      };
-      this.$store.commit('setBlogs', [...this.$store.state.blogs, newBlog]);
+        this.$nextTick(() => {
+  setTimeout(() => {
+    this.$router.push({ path: '/', query: { blogId: newBlog.id } });
+  }, 2000); 
+});
 
-      this.$nextTick(() => {
-        this.$router.push({ path: '/', query: { blogId: blogId } });
-      });
+      }
     });
-}
-
+  }
 }
 </script>
 
 <style scoped>
 .text-center {
-  color: gray ;
+  color: gray;
 }
 
 .btn {
-  color: black ;
+  color: black;
   background-color: #ffc107;
   font-size: 25px;
 }
