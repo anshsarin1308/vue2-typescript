@@ -1,7 +1,10 @@
-<template>
+
+
+
+   <template>
     <div class="form-group">
       <label>{{ label }}</label>
-      <div v-for="option in options" :key="option" class="form-check form-check-inline">
+      <div v-for="option in options" :key="option" class="form-check ">
         <input
           type="checkbox"
           :value="option"
@@ -38,9 +41,21 @@
           value.splice(index, 1);
         }
   
-        this.$emit('input', value); 
+        this.$emit('input', value);
       }
     }
   };
   </script>
+
+<style scoped>
+.form-check {
+  display: inline-block;
+  margin-right: 15px; 
+}
+
+.form-check input {
+  margin-right: 5px; 
+}
+
+</style>
   

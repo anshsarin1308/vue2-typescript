@@ -1,7 +1,6 @@
 
 
-
-<template>
+ <template>
   <div class="container my-5">
     <div class="card shadow-lg p-4">
       <h2 class="text-center">Add a New Blog Post</h2>
@@ -9,7 +8,16 @@
       <form v-if="!submitted">
         <BaseInput v-model="blog.title" label="Blog Title:" required /> <br>
         <BaseTextarea v-model="blog.content" label="Blog Content:" /> <br>
-        <BaseCheckbox v-model="blog.categories" label="Blog Categories:" :options="categories" /><br>
+
+        <label>Blog Categories:</label>
+        <div v-for="category in categories" :key="category" class="basecheckbox">
+          <BaseCheckbox
+            v-model="blog.categories"
+            :options="[category]"
+          />
+        </div>
+        <br>
+
         <BaseSelect v-model="blog.author" label="Author:" :options="authors" /><br>
 
         <button type="button" class="btn w-100" v-on:click.prevent="postBlog">Add Blog</button><br>
@@ -26,7 +34,9 @@
         <p class="border p-2 bg-light" style="white-space: pre">{{ blog.content }}</p> <br>
         <p><strong>Blog Categories:</strong></p>
         <ul class="list-group">
-          <li v-for="category in blog.categories" :key="category" class="list-group-item">{{ category }}</li>
+          <li v-for="category in blog.categories" :key="category" class="list-group-item">
+            {{ category }}
+          </li>
         </ul> <br>
         <p class="mt-2"><strong>Author:</strong> {{ blog.author }}</p>
       </div>
@@ -36,7 +46,7 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
-import { Blog, ACTIONS } from '@/store'; // Import ACTIONS constant
+import { Blog, ACTIONS } from '@/store'; 
 import BaseInput from '@/components/forms/BaseInput.vue';
 import BaseTextarea from '@/components/forms/BaseTextarea.vue';
 import BaseCheckbox from '@/components/forms/BaseCheckbox.vue';
@@ -60,13 +70,13 @@ export default class AddBlog extends Vue {
   };
   authors: string[] = ['The Net Ninja', 'The Angular Avenger', 'The Vue Vindicator'];
   categories: string[] = ['Ninjas', 'Wizards', 'Mario', 'Cheese'];
+
   submitted = false;
 
   postBlog() {
     this.$store.dispatch(ACTIONS.POST_BLOG, this.blog).then((newBlog) => {
       if (newBlog) {
         this.submitted = true;
-        
 
         this.$nextTick(() => {
           setTimeout(() => {
@@ -89,5 +99,8 @@ export default class AddBlog extends Vue {
   background-color: #ffc107;
   font-size: 25px;
 }
+
+
 </style>
+
 
