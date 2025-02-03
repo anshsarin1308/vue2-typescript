@@ -89,8 +89,8 @@ const store: StoreOptions<State> = {
             ...blog,
             id: response.data.name,
           };
-          commit(MUTATIONS.SET_BLOGS, [...state.blogs, newBlog]); 
-          return newBlog; 
+          commit(MUTATIONS.SET_BLOGS, [...state.blogs, newBlog]);
+          return newBlog;
         }
       } catch (error) {
         console.error("Error posting blog:", error);
